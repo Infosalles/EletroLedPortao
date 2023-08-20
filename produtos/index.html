@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EletroLed</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="./index.css" rel="stylesheet">
+</head>
+
+<body onload="init();">
+    <div class="container">
+        <form id="produto-form" class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-12 col-md-6">
+                        <label for="id">Id</label>
+                        <input id="id" type="text" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="unidade">Unidade</label>
+                        <input id="unidade" type="text" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="tipo">Tipo</label>
+                        <input id="tipo" type="text" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="descricao">Descricao</label>
+                        <input id="descricao" type="text" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="precoUnitario">Preco Unitario</label>
+                        <input id="precoUnitario" type="number" step="0.01" min="0"
+                            class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="metragemMinima">Metragem Minima</label>
+                        <input id="metragemMinima" type="number" step="0.01" min="0"
+                            class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="metragemMaxima">Metragem Maxima</label>
+                        <input id="metragemMaxima" type="number" step="0.01" min="0"
+                            class="form-control form-control-sm" />
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-body-secondary">
+                <div class="d-flex gap-1">
+                    <input id="btnDelete" type="button" value="Deletar" class="btn btn-danger w-100 d-none" />
+                    <input id="btnSubmit" type="submit" value="Adicionar produto" class="btn btn-success w-100" />
+                    <input id="btnReset" type="reset" value="Limpar" class="btn btn-warning w-100" />
+                </div>
+            </div>
+        </form>
+
+        <hr />
+
+        <div class="card">
+            <div class="card-body table-responsive">
+                <table id="produto-table" class="table table-sm table-striped-columns caption-top">
+                    <caption>Lista de produtos</caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" data-col="id">Id</th>
+                            <th scope="col" data-col="unidade">Unidade</th>
+                            <th scope="col" data-col="tipo">Tipo</th>
+                            <th scope="col" data-col="descricao">Descricao</th>
+                            <th scope="col" data-col="precoUnitario">Preco Unitário</th>
+                            <th scope="col" data-col="metragemMinima">Metragem Mínima</th>
+                            <th scope="col" data-col="metragemMaxima">Metragem Máxima</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <script src="../models/produto.js"></script>
+    <script src="../repositories/produtoRepository.js"></script>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
