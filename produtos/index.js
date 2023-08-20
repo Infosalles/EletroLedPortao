@@ -48,6 +48,7 @@ function updateTable() {
         tbody.appendChild(row);
     });
 }
+
 function resetForm() {
     _formProduto.clear();
 
@@ -60,6 +61,8 @@ function updateForm(produto, iesInsert) {
     for (let col in _formProduto) {
         /** @type {HTMLInputElement} */
         let field = document.getElementById(col);
+
+        if(!field) continue;
 
         field.value = _formProduto[col] ?? null;
     }
@@ -76,6 +79,8 @@ function updateProduto() {
     for (let col in _formProduto) {
         /** @type {HTMLInputElement} */
         let field = document.getElementById(col);
+
+        if(!field) continue;
 
         if (field.type == "number")
             _formProduto[col] = Number.isNaN(field.valueAsNumber) ? null : field.valueAsNumber;

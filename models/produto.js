@@ -8,15 +8,28 @@ class Produto {
      * @param {number} precoUnitario - Preço unitário do produto.
      * @param {number|undefined} metragemMinima - Metragem mínima para produto (usar quando produto for do tipo Motor).
      * @param {number|undefined} metragemMaxima - Metragem máxima para produto (usar quando produto for do tipo Motor).
+     * @param {string} formulaQtd - Fórmula para calcular a Quantidade do item
+     * @param {string} formulaValor - Fórmula para calcular o Valor do item
      */
-    constructor(id, unidade, tipo, descricao, precoUnitario, metragemMinima, metragemMaxima) {
+    constructor(id, unidade, tipo, descricao, precoUnitario, metragemMinima, metragemMaxima, formulaQtd, formulaValor) {
+        /** @type {string} */
         this.id = id;
+        /** @type {string} */
         this.unidade = unidade;
+        /** @type {string} */
         this.tipo = tipo;
+        /** @type {string} */
         this.descricao = descricao;
+        /** @type {number} */
         this.precoUnitario = precoUnitario;
+        /** @type {number} */
         this.metragemMinima = metragemMinima ?? 0;
+        /** @type {number} */
         this.metragemMaxima = metragemMaxima ?? 0;
+        /** @type {string} */
+        this.formulaQtd = formulaQtd;
+        /** @type {string} */
+        this.formulaValor = formulaValor;
     }
 
     /**
@@ -30,7 +43,7 @@ class Produto {
         if (!this.tipo) errMsg.push("[tipo] é obrigatório");
         if (!this.descricao) errMsg.push("[descricao] é obrigatório");
         if (typeof (this.precoUnitario) != "number") errMsg.push("[precoUnitario] é obrigatório e deve ser number");
-
+        
         return errMsg;
     }
 
@@ -42,7 +55,8 @@ class Produto {
 
     clear() {
         for (let col in this) {
-            this[col] = undefined;
+            if (Array.isArray(this[col])) this[col] = [];
+            else this[col] = undefined;
         }
     }
 
