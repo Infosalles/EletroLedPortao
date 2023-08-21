@@ -1,3 +1,6 @@
+import { Produto } from "../models/produto.js";
+import * as produtoRepository from "../repositories/produtoRepository.js";
+
 const _formProduto = new Produto();
 
 /** @type {HTMLFormElement} */
@@ -12,7 +15,7 @@ const _table = document.getElementById("produto-table");
 
 function init() {
     resetForm();
-    getProdutos(updateTable);
+    produtoRepository.getProdutos(updateTable);
 }
 
 function updateTable() {
@@ -33,7 +36,7 @@ function updateTable() {
     }
 
     // Adiciona as linhas da tabela
-    produtos.forEach(produto => {
+    produtoRepository.produtos.forEach(produto => {
         const row = document.createElement('tr');
         for (let col in _formProduto) {
             let cellData = produto[col];
@@ -94,9 +97,13 @@ function updateProduto() {
         return;
     }
 
-    addProduto(_formProduto);
+    produtoRepository.addProduto(_formProduto);
     resetForm();
 }
+
+document.body.onload = function (e) {
+    init(); 
+};
 
 _form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -109,7 +116,7 @@ _form.addEventListener('reset', function (e) {
     resetForm();
 });
 _btnDelete.addEventListener('click', function (e) {
-    removeProduto(_formProduto.id);
+    produtoRepository.removeProduto(_formProduto.id);
 
     resetForm();
 });

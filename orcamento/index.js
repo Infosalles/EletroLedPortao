@@ -1,3 +1,7 @@
+import { Orcamento, OrcamentoItem } from "../models/orcamento.js";
+import * as produtoRepository from "../repositories/produtoRepository.js";
+import * as orcamentoRepository from "../repositories/orcamentoRepository.js";
+
 const _formOrcamento = new Orcamento();
 
 /** @type {HTMLFormElement} */
@@ -5,7 +9,7 @@ const _form = document.getElementById('orcamento-form');
 
 function init() {
     resetForm();
-    getProdutos(updateData);
+    produtoRepository.getProdutos(updateData);
 }
 
 function updateData() {
@@ -13,7 +17,7 @@ function updateData() {
     let cor = document.getElementById("cor");
     cor.options.length = 0;
 
-    produtos
+    produtoRepository.produtos
         .filter(produto => produto.tipo == "PINTURA")
         .forEach(produto => {
             const option = document.createElement("option");
@@ -71,33 +75,37 @@ function updateOrcamento() {
         "B002", //borracha soleira
     ];
 
-    let produtosFixos = produtos
+    let produtosFixos = produtoRepository.produtos
         .filter(produto => fixos.indexOf(produto.id) >= 0)
         .map(produto => {
             if (produto.id == "E001")
-                return new OrcamentoItem(produto, produtos.find(produto => produto.id == "M001")?.precoUnitario);
+                return new OrcamentoItem(produto, produtoRepository.produtos.find(produto => produto.id == "M001")?.precoUnitario);
             else return new OrcamentoItem(produto);
         });
     _formOrcamento.itens.push(...produtosFixos);
 
     let area = _formOrcamento.getArea();
 
-    let motor = produtos.find(produto => produto.tipo == "MOTOR" && area >= produto.metragemMinima && area <= produto.metragemMaxima);
+    let motor = produtoRepository.produtos.find(produto => produto.tipo == "MOTOR" && area >= produto.metragemMinima && area <= produto.metragemMaxima);
     _formOrcamento.itens.push(new OrcamentoItem(motor));
 
-    let cor = produtos.find(produto => produto.id == _formOrcamento.cor);
+    let cor = produtoRepository.produtos.find(produto => produto.id == _formOrcamento.cor);
     _formOrcamento.itens.push(new OrcamentoItem(cor));
 
     if (_formOrcamento.alcapao == "S") {
-        let alcapao = produtos.find(produto => produto.id == "A001");
+        let alcapao = produtoRepository.produtos.find(produto => produto.id == "A001");
         _formOrcamento.itens.push(new OrcamentoItem(alcapao));
     }
 
     _formOrcamento.calculaOrcamento();
 
-    addOrcamento(_formOrcamento);
+    orcamentoRepository.addOrcamento(_formOrcamento);
     resetForm();
 }
+
+document.body.onload = function (e) {
+    init(); 
+};
 
 _form.addEventListener('submit', function (e) {
     e.preventDefault();

@@ -1,3 +1,5 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js';
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBtNgQHS2gz3HnYEyRkkkXKcdy5yEnbVBg",
@@ -10,6 +12,4 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-const database = firebase.database();
+export const app = initializeApp(firebaseConfig);

@@ -1,4 +1,4 @@
-class Produto {
+export class Produto {
     /**
      * @constructor
      * @param {string} id - Id do produto.
@@ -13,23 +13,23 @@ class Produto {
      */
     constructor(id, unidade, tipo, descricao, precoUnitario, metragemMinima, metragemMaxima, formulaQtd, formulaValor) {
         /** @type {string} */
-        this.id = id;
+        this.id = id ?? "";
         /** @type {string} */
-        this.unidade = unidade;
+        this.unidade = unidade ?? "";
         /** @type {string} */
-        this.tipo = tipo;
+        this.tipo = tipo ?? "";
         /** @type {string} */
-        this.descricao = descricao;
+        this.descricao = descricao ?? "";
         /** @type {number} */
-        this.precoUnitario = precoUnitario;
+        this.precoUnitario = precoUnitario ?? 0;
         /** @type {number} */
         this.metragemMinima = metragemMinima ?? 0;
         /** @type {number} */
         this.metragemMaxima = metragemMaxima ?? 0;
         /** @type {string} */
-        this.formulaQtd = formulaQtd;
+        this.formulaQtd = formulaQtd ?? 0;
         /** @type {string} */
-        this.formulaValor = formulaValor;
+        this.formulaValor = formulaValor ?? 0;
     }
 
     /**
@@ -43,21 +43,32 @@ class Produto {
         if (!this.tipo) errMsg.push("[tipo] é obrigatório");
         if (!this.descricao) errMsg.push("[descricao] é obrigatório");
         if (typeof (this.precoUnitario) != "number") errMsg.push("[precoUnitario] é obrigatório e deve ser number");
-        
+
         return errMsg;
     }
 
     update(produto) {
-        for (let col in this) {
-            this[col] = produto[col];
-        }
+        this.id = produto.id ?? "";
+        this.unidade = produto.unidade ?? "";
+        this.tipo = produto.tipo ?? "";
+        this.descricao = produto.descricao ?? "";
+        this.precoUnitario = produto.precoUnitario ?? 0;
+        this.metragemMinima = produto.metragemMinima ?? 0;
+        this.metragemMaxima = produto.metragemMaxima ?? 0;
+        this.formulaQtd = produto.formulaQtd ?? 0;
+        this.formulaValor = produto.formulaValor ?? 0;
     }
 
     clear() {
-        for (let col in this) {
-            if (Array.isArray(this[col])) this[col] = [];
-            else this[col] = undefined;
-        }
+        this.id = "";
+        this.unidade = "";
+        this.tipo = "";
+        this.descricao = "";
+        this.precoUnitario = 0;
+        this.metragemMinima = 0;
+        this.metragemMaxima = 0;
+        this.formulaQtd = 0;
+        this.formulaValor = 0;
     }
 
     /**

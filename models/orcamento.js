@@ -1,4 +1,6 @@
-class Orcamento {
+import { Produto } from "./produto.js";
+
+export class Orcamento {
     /**
      * @constructor
      * @param {string} id 
@@ -13,30 +15,30 @@ class Orcamento {
      */
     constructor(id, cliente, altura, largura, cor, alcapao, pagamento, taxa, margem) {
         /** @type {string} */
-        this.id = id;
+        this.id = id ?? "";
         /** @type {string} */
-        this.cliente = cliente;
+        this.cliente = cliente ?? "";
         /** @type {number} */
-        this.altura = altura;
+        this.altura = altura ?? 0;
         /** @type {number} */
-        this.largura = largura;
+        this.largura = largura ?? 0;
         /** @type {string} */
-        this.cor = cor;
+        this.cor = cor ?? "";
         /** @type {string} */
-        this.alcapao = alcapao;
+        this.alcapao = alcapao ?? "";
         /** @type {string} */
-        this.pagamento = pagamento;
+        this.pagamento = pagamento ?? "";
         /** @type {number} */
-        this.taxa = taxa;
+        this.taxa = taxa ?? 0;
         /** @type {number} */
-        this.margem = margem;
+        this.margem = margem ?? 0;
 
         /** @type {OrcamentoItem[]} */
         this.itens = [];
         /** @type {number} */
         this.totalValor = 0;
         /** @type {number} */
-        this.totalValorPix = 0;
+        this.totalValorPix = 0;;
         /** @type {number} */
         this.totalValorCartao = 0;
     }
@@ -47,7 +49,6 @@ class Orcamento {
     validate() {
         let errMsg = [];
 
-        // if (!this.id) errMsg.push("[id] é obrigatório");
         if (!this.cliente) errMsg.push("[cliente] é obrigatório");
         if (typeof (this.altura) != "number") errMsg.push("[altura] é obrigatório e deve ser number");
         if (typeof (this.largura) != "number") errMsg.push("[largura] é obrigatório e deve ser number");
@@ -60,9 +61,24 @@ class Orcamento {
     }
 
     update(orcamento) {
-        for (let col in this) {
-            this[col] = orcamento[col];
-        }
+        this.id = orcamento.id ?? "";
+        this.cliente = orcamento.cliente ?? "";
+        this.altura = orcamento.altura ?? 0;
+        this.largura = orcamento.largura ?? 0;
+        this.cor = orcamento.cor ?? "";
+        this.alcapao = orcamento.alcapao ?? "";
+        this.pagamento = orcamento.pagamento ?? "";
+        this.taxa = orcamento.taxa ?? 0;
+        this.margem = orcamento.margem ?? 0;
+
+        this.itens = orcamento.itens?.map(item => {
+            let orcamentoItem = new OrcamentoItem();
+            orcamentoItem.update(item);
+            return orcamentoItem;
+        }) ?? [];
+        this.totalValor = orcamento.totalValor ?? 0;
+        this.totalValorPix = orcamento.totalValorPix ?? 0;
+        this.totalValorCartao = orcamento.totalValorCartao ?? 0;
     }
 
     clear() {
@@ -124,12 +140,12 @@ class Orcamento {
     }
 }
 
-class OrcamentoItem {
+export class OrcamentoItem {
     constructor(produto, valorMO) {
         /** @type {Produto} */
         this.produto = produto;
-        /** @type {number|undefined} */
-        this.valorMO = valorMO
+        /** @type {number} */
+        this.valorMO = valorMO ?? 0;
 
         /** @type {number} */
         this.qtd = 0;
@@ -137,9 +153,12 @@ class OrcamentoItem {
         this.valor = 0;
     }
 
-    update(orcamento) {
-        for (let col in this) {
-            this[col] = orcamento[col];
-        }
+    update(item) {
+        this.produto = new Produto();
+        this.produto.update(item.produto);
+        this.valorMO = item.valorMO ?? 0;
+
+        this.qtd = item.qtd ?? 0;
+        this.valor = item.valor ?? 0;
     }
 }

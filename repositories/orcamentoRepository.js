@@ -1,49 +1,51 @@
-const orcamentos = [];
+import { Orcamento } from "../models/orcamento.js";
+import { app } from "./baseRepository.js";
+import { getDatabase, ref, onValue, child, push, update, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js';
+
+const database = getDatabase(app);
+
+/** @type {Orcamento[]} */
+export const orcamentos = [];
 
 /**
  * @param {Orcamento} orcamento 
  * @returns {string}
  */
-function addOrcamento(orcamento) {
-    const itemRef = database.ref("orcamentos");
-    let data = JSON.parse(JSON.stringify(orcamento));
-    let postRef = itemRef.push(data);
-    orcamento.id = postRef.key;
-    postRef.update({
-        id: orcamento.id
-    });
+export function addOrcamento(orcamento) {
+    let postId = push(child(ref(database), "orcamentos")).key;
+    orcamento.id = postId;
+
+    update(ref(database, "orcamentos/" + postId), orcamento);
+
     return orcamento.id;
 }
 
-function getOrcamentos(callbackFn) {
-    const itemRef = database.ref("orcamentos");
-    itemRef
-        .on("value", function (snapshot) {
-            orcamentos.length = 0;
-            snapshot.forEach(function (childSnapshot) {
-                let _p = new Orcamento();
-                _p.update(childSnapshot.val());
-                orcamentos.push(_p);
-            });
-            if (callbackFn) callbackFn();
+/**
+ * Se conecta com o firebase para acessar a lista de orçamentos em tempo real
+ * @param {function():void|undefined} callbackFn callback para atualizar a tela com a lista de orçamentos recarregada
+ */
+export function getOrcamentos(callbackFn) {
+    onValue(ref(database, 'orcamentos'), (snapshot) => {
+        orcamentos.length = 0;
+        snapshot.forEach((childSnapshot) => {
+            let _p = new Orcamento();
+            _p.update(childSnapshot.val());
+            orcamentos.push(_p);
         });
+        if (callbackFn) callbackFn();
+    });
 }
 
 /**
  * @param {string} id 
  * @param {function(Orcamento):void} callbackFn 
  */
-function getOrcamento(id, callbackFn) {
-    const itemRef = database.ref("orcamentos");
-    itemRef
-        .orderByChild(id)
-        .limitToLast(1)
-        .once('value')
-        .then((snapshot) => {
-            let orcamento = new Orcamento();
-            snapshot.forEach(function (childSnapshot) {
-                orcamento.update(childSnapshot.val());
-            });
-            if (callbackFn) callbackFn(orcamento);
+export function getOrcamento(id, callbackFn) {
+    onValue(query(ref(database, 'orcamentos'), orderByChild(id), limitToLast(100)), (snapshot) => {
+        let orcamento = new Orcamento();
+        snapshot.forEach((childSnapshot) => {
+            orcamento.update(childSnapshot.val());
         });
+        if (callbackFn) callbackFn(orcamento);
+    });
 }
