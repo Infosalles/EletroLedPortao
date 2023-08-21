@@ -12,65 +12,28 @@
 
 <body>
     <div class="container">
-        <form id="orcamento-form" class="card">
+        <div class="sticky-top">
+            <a href="./add/" class="btn btn-success">Inserir</a>
+        </div>
+        <div class="card">
             <img src="../content/images/logo.jpg" class="card-img-top" alt="logo" />
             <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <h4>Novo Orçamento</h4>
-                    </div>
-                    <div class="col-auto">
-                        <input id="data" readonly type="text" class="form-control-plaintext text-end"></input>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-12">
-                        <label class="col-form-label col-form-label-sm" for="cliente">Cliente</label>
-                        <input id="cliente" type="text" class="form-control form-control-sm" />
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="largura">Largura</label>
-                        <input id="largura" type="number" step="0.01" min="0" class="form-control form-control-sm" />
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="altura">Altura</label>
-                        <input id="altura" type="number" step="0.01" min="0" class="form-control form-control-sm" />
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="cor">Cor</label>
-                        <select id="cor" class="form-select"></select>
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="alcapao">Alçapão</label>
-                        <select id="alcapao" class="form-select">
-                            <option value="N" selected="select">Não</option>
-                            <option value="S">Sim</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="pagamento">Pagamento</label>
-                        <select id="pagamento" class="form-select">
-                            <option value="PIX" selected="select">PIX (à vista)</option>
-                            <option value="CARTÃO">Cartão</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="taxa">Taxa</label>
-                        <input id="taxa" type="number" step="0.01" min="0" class="form-control form-control-sm" />
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="margem">Margem</label>
-                        <input id="margem" type="number" step="0.01" min="0" class="form-control form-control-sm" />
-                    </div>
+                <div class="table-responsive">
+                    <table id="orcamento-table" class="table table-sm table-striped-columns caption-top">
+                        <caption>Lista de Orçamentos</caption>
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" data-col="data">Data</th>
+                                <th scope="col" data-col="cliente">Cliente</th>
+                                <th scope="col" data-col="totalValor">Valor</th>
+                                <th scope="col" data-col="totalValorPix">Valor Pix</th>
+                                <th scope="col" data-col="totalValorCartao">Valor Cartão</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-            <div class="card-footer text-body-secondary">
-                <div class="d-flex gap-1">
-                    <input id="btnSubmit" type="submit" value="Gerar Orçamento" class="btn btn-success w-100" />
-                    <input id="btnReset" type="reset" value="Limpar" class="btn btn-warning w-100" />
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

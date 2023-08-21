@@ -42,8 +42,8 @@ export class Orcamento {
         /** @type {number} */
         this.totalValorCartao = 0;
 
-        /** @type {Date} */
-        this.data = new Date();
+        /** @type {string} */
+        this.data = (new Date()).toLocaleDateString();
     }
 
     /**
@@ -83,8 +83,7 @@ export class Orcamento {
         this.totalValorPix = orcamento.totalValorPix ?? 0;
         this.totalValorCartao = orcamento.totalValorCartao ?? 0;
 
-        if (orcamento.data && typeof (orcamento.data) == "string") this.data = new Date(Date.parse(orcamento.data));
-        else this.data = new Date();
+        this.data = orcamento.data ?? (new Date()).toLocaleDateString();
     }
 
     clear() {
@@ -103,7 +102,7 @@ export class Orcamento {
         this.totalValorPix = 0;
         this.totalValorCartao = 0;
 
-        this.data = new Date();
+        this.data = (new Date()).toLocaleDateString();
     }
 
     getAltura() {

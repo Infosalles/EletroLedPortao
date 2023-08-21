@@ -76,7 +76,6 @@ function updateForm(orcamento) {
 
         let val = orcamento[col];
         if (val && typeof (val) == "number") field.value = formatFloat(val, 2);
-        else if (val && col == "data") field.value = orcamento.data.toLocaleDateString();
         else field.value = val ?? null;
     }
 }

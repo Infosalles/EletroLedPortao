@@ -1,121 +1,77 @@
-import { Orcamento, OrcamentoItem } from "../models/orcamento.js";
-import * as produtoRepository from "../repositories/produtoRepository.js";
 import * as orcamentoRepository from "../repositories/orcamentoRepository.js";
 
-const _formOrcamento = new Orcamento();
-
-/** @type {HTMLFormElement} */
-const _form = document.getElementById('orcamento-form');
+/** @type {HTMLTableElement} */
+const _table = document.getElementById("orcamento-table");
 
 function init() {
-    resetForm();
-    produtoRepository.getProdutos(updateData);
+    orcamentoRepository.getOrcamentos(updateTable);
 }
 
-function updateData() {
-    /** @type {HTMLSelectElement} */
-    let cor = document.getElementById("cor");
-    cor.options.length = 0;
+function updateTable() {
+    /** @type {HTMLTableSectionElement} */
+    let tbody;
 
-    produtoRepository.produtos
-        .filter(produto => produto.tipo == "PINTURA")
-        .forEach(produto => {
-            const option = document.createElement("option");
-            option.value = produto.id;
-            option.text = produto.descricao;
-            cor.options.add(option);
+    if (_table.tBodies.length > 0) {
+        tbody = _table.tBodies.item(0);
+    }
+    else {
+        tbody = document.createElement("tbody");
+        _table.appendChild(tbody);
+    }
+
+    // Limpa o conteúdo da tabela
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    let columns = [];
+    document
+        .querySelectorAll(`#${_table.id} thead [data-col]`)
+        .forEach(el => {
+            /** @type {HTMLTableCellElement} */
+            let td = el;
+            columns.push(td.dataset.col);
         });
-}
 
-function resetForm() {
-    _formOrcamento.clear();
+    // Adiciona as linhas da tabela
+    orcamentoRepository.orcamentos.forEach(orcamento => {
+        const row = document.createElement('tr');
 
-    updateForm();
-}
+        columns.forEach(col => {
+            let val = orcamento[col];
+            let td;
 
-function updateForm() {
-    for (let col in _formOrcamento) {
-        /** @type {HTMLInputElement|HTMLSelectElement} */
-        let field = document.getElementById(col);
+            td = document.createElement('td');
+            td.dataset.col = col;
+            if (val && typeof (val) == "number") {
+                td.textContent = formatFloat(val, 2);
+                td.classList.add("text-end");
+            }
+            else td.textContent = val;
+            row.addEventListener("click", function (e) {
+                location.href = "./open?id=" + orcamento.id;
+            });
+            row.appendChild(td);
 
-        if (!field) continue;
-
-        let val = _formOrcamento[col];
-        if (field instanceof HTMLSelectElement) field.value = val ?? field.options.item(0)?.value;
-        else if (val && col == "data") field.value = _formOrcamento.data.toLocaleDateString();
-        else field.value = val ?? null;
-    }
-}
-
-function updateOrcamento() {
-    _formOrcamento.itens.length = 0;
-
-    for (let col in _formOrcamento) {
-        /** @type {HTMLInputElement|HTMLSelectElement} */
-        let field = document.getElementById(col);
-
-        if (!field) continue;
-
-        if (field instanceof HTMLInputElement && field.type == "number")
-            _formOrcamento[col] = Number.isNaN(field.valueAsNumber) ? null : field.valueAsNumber;
-        else
-            _formOrcamento[col] = field.value;
-    }
-
-    let validation = _formOrcamento.validate();
-    if (validation.length > 0) {
-        console.error(validation);
-        return;
-    }
-
-    let fixos = [
-        "L001", //lamina
-        "S001", //soleira
-        "E001", //eixo
-        "G001", //guia
-        "B001", //borracha lateral
-        "B002", //borracha soleira
-    ];
-
-    let produtosFixos = produtoRepository.produtos
-        .filter(produto => fixos.indexOf(produto.id) >= 0)
-        .map(produto => {
-            if (produto.id == "E001")
-                return new OrcamentoItem(produto, produtoRepository.produtos.find(produto => produto.id == "M001")?.precoUnitario);
-            else return new OrcamentoItem(produto);
+            tbody.appendChild(row);
         });
-    _formOrcamento.itens.push(...produtosFixos);
+    });
+}
 
-    let area = _formOrcamento.getArea();
+function formatInt(n) {
+    return n.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    });
+}
 
-    let motor = produtoRepository.produtos.find(produto => produto.tipo == "MOTOR" && area >= produto.metragemMinima && area <= produto.metragemMaxima);
-    _formOrcamento.itens.push(new OrcamentoItem(motor));
-
-    let cor = produtoRepository.produtos.find(produto => produto.id == _formOrcamento.cor);
-    _formOrcamento.itens.push(new OrcamentoItem(cor));
-
-    if (_formOrcamento.alcapao == "S") {
-        let alcapao = produtoRepository.produtos.find(produto => produto.id == "A001");
-        _formOrcamento.itens.push(new OrcamentoItem(alcapao));
-    }
-
-    _formOrcamento.calculaOrcamento();
-
-    let orcamentoId = orcamentoRepository.addOrcamento(_formOrcamento);
-    location.href = "./open?id=" + orcamentoId;
+function formatFloat(n, totalDigits) {
+    return n.toLocaleString(undefined, {
+        minimumFractionDigits: totalDigits,
+        maximumFractionDigits: totalDigits,
+    });
 }
 
 document.body.onload = function (e) {
-    init(); 
+    init();
 };
-
-_form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    updateOrcamento();
-});
-_form.addEventListener('reset', function (e) {
-    e.preventDefault();
-
-    resetForm();
-});
