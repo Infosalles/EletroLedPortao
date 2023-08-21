@@ -55,11 +55,30 @@ function updateTable(orcamento) {
         td = document.createElement('td');
         td.dataset.col = "valor";
         td.textContent = formatFloat(item.valor, 2);
-        td.classList.add("text-end");
+        td.classList.add("d-print-none", "text-end");
         row.appendChild(td);
 
         tbody.appendChild(row);
     });
+
+    updateForm(orcamento);
+}
+
+/**
+ * @param {Orcamento} orcamento 
+ */
+function updateForm(orcamento) {
+    for (let col in orcamento) {
+        /** @type {HTMLInputElement|HTMLSelectElement} */
+        let field = document.getElementById(col);
+
+        if (!field) continue;
+
+        let val = orcamento[col];
+        if (val && typeof (val) == "number") field.value = formatFloat(val, 2);
+        else if (val && col == "data") field.value = orcamento.data.toLocaleDateString();
+        else field.value = val ?? null;
+    }
 }
 
 function formatInt(n) {

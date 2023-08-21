@@ -25,9 +25,9 @@ export class Orcamento {
         /** @type {string} */
         this.cor = cor ?? "";
         /** @type {string} */
-        this.alcapao = alcapao ?? "";
+        this.alcapao = alcapao ?? "N";
         /** @type {string} */
-        this.pagamento = pagamento ?? "";
+        this.pagamento = pagamento ?? "PIX";
         /** @type {number} */
         this.taxa = taxa ?? 0;
         /** @type {number} */
@@ -41,6 +41,9 @@ export class Orcamento {
         this.totalValorPix = 0;;
         /** @type {number} */
         this.totalValorCartao = 0;
+
+        /** @type {Date} */
+        this.data = new Date();
     }
 
     /**
@@ -66,8 +69,8 @@ export class Orcamento {
         this.altura = orcamento.altura ?? 0;
         this.largura = orcamento.largura ?? 0;
         this.cor = orcamento.cor ?? "";
-        this.alcapao = orcamento.alcapao ?? "";
-        this.pagamento = orcamento.pagamento ?? "";
+        this.alcapao = orcamento.alcapao ?? "N";
+        this.pagamento = orcamento.pagamento ?? "PIX";
         this.taxa = orcamento.taxa ?? 0;
         this.margem = orcamento.margem ?? 0;
 
@@ -79,13 +82,28 @@ export class Orcamento {
         this.totalValor = orcamento.totalValor ?? 0;
         this.totalValorPix = orcamento.totalValorPix ?? 0;
         this.totalValorCartao = orcamento.totalValorCartao ?? 0;
+
+        if (orcamento.data && typeof (orcamento.data) == "string") this.data = new Date(Date.parse(orcamento.data));
+        else this.data = new Date();
     }
 
     clear() {
-        for (let col in this) {
-            if (Array.isArray(this[col])) this[col] = [];
-            else this[col] = undefined;
-        }
+        this.id = "";
+        this.cliente = "";
+        this.altura = 0;
+        this.largura = 0;
+        this.cor = "";
+        this.alcapao = "N";
+        this.pagamento = "PIX";
+        this.taxa = 0;
+        this.margem = 0;
+
+        this.itens = [];
+        this.totalValor = 0;
+        this.totalValorPix = 0;
+        this.totalValorCartao = 0;
+
+        this.data = new Date();
     }
 
     getAltura() {
@@ -143,7 +161,7 @@ export class Orcamento {
 export class OrcamentoItem {
     constructor(produto, valorMO) {
         /** @type {Produto} */
-        this.produto = produto;
+        this.produto = produto ?? new Produto();
         /** @type {number} */
         this.valorMO = valorMO ?? 0;
 

@@ -40,8 +40,10 @@ function updateForm() {
 
         if (!field) continue;
 
-        if (field instanceof HTMLSelectElement) field.value = _formOrcamento[col] ?? field.options.item(0)?.value;
-        else field.value = _formOrcamento[col] ?? null;
+        let val = _formOrcamento[col];
+        if (field instanceof HTMLSelectElement) field.value = val ?? field.options.item(0)?.value;
+        else if (val && col == "data") field.value = _formOrcamento.data.toLocaleDateString();
+        else field.value = val ?? null;
     }
 }
 
@@ -99,8 +101,8 @@ function updateOrcamento() {
 
     _formOrcamento.calculaOrcamento();
 
-    orcamentoRepository.addOrcamento(_formOrcamento);
-    resetForm();
+    let orcamentoId = orcamentoRepository.addOrcamento(_formOrcamento);
+    location.href = "./open?id=" + orcamentoId;
 }
 
 document.body.onload = function (e) {

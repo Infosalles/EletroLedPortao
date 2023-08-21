@@ -13,16 +13,58 @@
 <body>
     <div class="container">
         <div class="card">
+            <img src="../../content/images/logo.jpg" class="card-img-top" alt="logo" />
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h4>Orçamento</h4>
+                    </div>
+                    <div class="col-auto">
+                        <input id="data" readonly type="text" class="form-control-plaintext text-end"></input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-12">
+                        <label class="col-form-label col-form-label-sm" for="cliente">Cliente</label>
+                        <input id="cliente" readonly type="text" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label col-form-label-sm" for="largura">Largura</label>
+                        <input id="largura" readonly type="text" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label col-form-label-sm" for="altura">Altura</label>
+                        <input id="altura" readonly type="text" class="form-control form-control-sm" />
+                    </div>
+                </div>
+            </div>
+            <hr>
             <div class="card-body table-responsive">
-                <table id="itens-table" class="table table-sm table-striped-columns caption-top">
+                <table id="itens-table" class="table table-sm table-striped-columns m-0">
                     <thead class="table-dark">
                         <tr>
                             <th scope="col" data-col="qtd">Qtd</th>
                             <th scope="col" data-col="unidade">Un</th>
                             <th scope="col" data-col="descricao">Descricao</th>
-                            <th scope="col" data-col="valor">Valor</th>
+                            <th scope="col" data-col="valor" class="d-print-none">Valor</th>
                         </tr>
                     </thead>
+                    <caption>
+                        <div class="d-print-none form-group row g-0">
+                            <label for="totalValor" class="col-form-label col-auto">Total</label>
+                            <input id="totalValor" type="text" readonly class="form-control-plaintext text-end col" />
+                        </div>
+                        <div class="form-group row g-0">
+                            <label for="totalValorPix" class="col-form-label col-auto">Pix (à vista)</label>
+                            <input id="totalValorPix" type="text" readonly
+                                class="form-control-plaintext text-end col" />
+                        </div>
+                        <div class="form-group row g-0">
+                            <label for="totalValorCartao" class="col-form-label col-auto">Cartão</label>
+                            <input id="totalValorCartao" type="text" readonly
+                                class="form-control-plaintext text-end col" />
+                        </div>
+                    </caption>
                 </table>
             </div>
         </div>
