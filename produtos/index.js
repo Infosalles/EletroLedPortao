@@ -1,6 +1,6 @@
 import { Produto } from "../models/produto.js";
 import * as produtoRepository from "../repositories/produtoRepository.js";
-import { alert } from "../../scripts/utils.js";
+import { alert } from "../scripts/utils.js";
 
 const _formProduto = new Produto();
 
