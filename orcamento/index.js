@@ -36,10 +36,28 @@ function updateTable() {
     // Adiciona as linhas da tabela
     orcamentoRepository.orcamentos.forEach(orcamento => {
         const row = document.createElement('tr');
+        /** @type {HTMLTableCellElement} */
+        let td;
+
+        td = document.createElement('td');
+        let btn_sm = document.createElement('button');
+        btn_sm.classList.add("btn", "btn-sm", "btn-primary", "d-none", "d-md-block");
+        btn_sm.innerHTML = "<i class='bi bi-list'></i>";
+        btn_sm.addEventListener('click', (e) => {
+            location.href = "./open?id=" + orcamento.id;
+        });
+        td.appendChild(btn_sm);
+        let btn = document.createElement('button');
+        btn.classList.add("btn", "btn-primary", "d-md-none");
+        btn.innerHTML = "<i class='bi bi-list'></i>";
+        btn.addEventListener('click', (e) => {
+            location.href = "./open?id=" + orcamento.id;
+        });
+        td.appendChild(btn);
+        row.appendChild(td);
 
         columns.forEach(col => {
             let val = orcamento[col];
-            let td;
 
             td = document.createElement('td');
             td.dataset.col = col;
@@ -48,13 +66,10 @@ function updateTable() {
                 td.classList.add("text-end");
             }
             else td.textContent = val;
-            row.addEventListener("click", function (e) {
-                location.href = "./open?id=" + orcamento.id;
-            });
             row.appendChild(td);
-
-            tbody.appendChild(row);
         });
+
+        tbody.appendChild(row);
     });
 }
 
