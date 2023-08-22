@@ -1,0 +1,50 @@
+{
+    "name": "EletroLED",
+    "short_name": "EletroLED",
+    "start_url": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "shortcuts": [
+        {
+            "name": "Histórico de Orçamentos",
+            "url": "/orcamento/"
+        },
+        {
+            "name": "Novo Orçamento",
+            "url": "/orcamento/add/"
+        },
+        {
+            "name": "Catálogo Produtos",
+            "url": "/produtos"
+        }
+    ],
+    "icons": [
+        {
+            "src": "./content/icons/favicon.ico",
+            "type": "image/x-icon",
+            "sizes": "16x16 32x32"
+        },
+        {
+            "src": "./content/icons/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "./content/icons/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "./content/icons/icon-192-maskable.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "maskable"
+        },
+        {
+            "src": "./content/icons/icon-512-maskable.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "maskable"
+        }
+    ]
+}
