@@ -1,6 +1,6 @@
 import { Orcamento } from "../models/orcamento.js";
 import { app } from "./baseRepository.js";
-import { getDatabase, ref, onValue, child, push, update, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js';
+import { getDatabase, ref, onValue, child, get, push, update, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js';
 
 const database = getDatabase(app);
 
@@ -41,11 +41,12 @@ export function getOrcamentos(callbackFn) {
  * @param {function(Orcamento):void} callbackFn 
  */
 export function getOrcamento(id, callbackFn) {
-    onValue(query(ref(database, 'orcamentos'), orderByChild(id), limitToLast(100)), (snapshot) => {
-        let orcamento = new Orcamento();
-        snapshot.forEach((childSnapshot) => {
-            orcamento.update(childSnapshot.val());
+    get(query(ref(database, `orcamentos`), ...[orderByChild("id"), equalTo(id)]))
+        .then((snapshot) => {
+            let orcamento = new Orcamento();
+            snapshot.forEach((childSnapshot) => {
+                orcamento.update(childSnapshot.val());
+            });
+            if (callbackFn) callbackFn(orcamento);
         });
-        if (callbackFn) callbackFn(orcamento);
-    });
 }
