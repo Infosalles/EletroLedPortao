@@ -1,5 +1,6 @@
 import { Produto } from "../models/produto.js";
 import * as produtoRepository from "../repositories/produtoRepository.js";
+import { alert } from "../../scripts/utils.js";
 
 const _formProduto = new Produto();
 
@@ -94,6 +95,7 @@ function updateProduto() {
     let validation = _formProduto.validate();
     if (validation.length > 0) {
         console.error(validation);
+        alert('<ul class="m-0">' + validation.map(s => '<li>' + s + '</li>').join() + '</ul>', 'danger');
         return;
     }
 

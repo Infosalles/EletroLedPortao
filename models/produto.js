@@ -43,6 +43,7 @@ export class Produto {
         if (!this.tipo) errMsg.push("[tipo] é obrigatório");
         if (!this.descricao) errMsg.push("[descricao] é obrigatório");
         if (typeof (this.precoUnitario) != "number") errMsg.push("[precoUnitario] é obrigatório e deve ser number");
+        else if (this.precoUnitario <= 0) errMsg.push("[precoUnitario] deve ser maior que zero");
 
         return errMsg;
     }

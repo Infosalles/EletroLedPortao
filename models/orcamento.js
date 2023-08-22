@@ -9,11 +9,10 @@ export class Orcamento {
      * @param {number} largura 
      * @param {string} cor
      * @param {bool} alcapao
-     * @param {string} pagamento
      * @param {number} taxa
      * @param {number} margem
      */
-    constructor(id, cliente, altura, largura, cor, alcapao, pagamento, taxa, margem) {
+    constructor(id, cliente, altura, largura, cor, alcapao, taxa, margem) {
         /** @type {string} */
         this.id = id ?? "";
         /** @type {string} */
@@ -26,8 +25,6 @@ export class Orcamento {
         this.cor = cor ?? "";
         /** @type {string} */
         this.alcapao = alcapao ?? "N";
-        /** @type {string} */
-        this.pagamento = pagamento ?? "PIX";
         /** @type {number} */
         this.taxa = taxa ?? 0;
         /** @type {number} */
@@ -54,11 +51,12 @@ export class Orcamento {
 
         if (!this.cliente) errMsg.push("[cliente] é obrigatório");
         if (typeof (this.altura) != "number") errMsg.push("[altura] é obrigatório e deve ser number");
+        else if (this.altura <= 0) errMsg.push("[altura] deve ser maior que zero");
         if (typeof (this.largura) != "number") errMsg.push("[largura] é obrigatório e deve ser number");
+        else if (this.largura <= 0) errMsg.push("[largura] deve ser maior que zero");
         if (!this.cor) errMsg.push("[cor] é obrigatório");
-        if (!this.pagamento) errMsg.push("[pagamento] é obrigatório");
         if (typeof (this.taxa) != "number") errMsg.push("[taxa] é obrigatório e deve ser number");
-        if (typeof (this.margem) != "number") errMsg.push("[largura] é obrigatório e deve ser number");
+        if (typeof (this.margem) != "number") errMsg.push("[margem] é obrigatório e deve ser number");
 
         return errMsg;
     }
@@ -70,7 +68,6 @@ export class Orcamento {
         this.largura = orcamento.largura ?? 0;
         this.cor = orcamento.cor ?? "";
         this.alcapao = orcamento.alcapao ?? "N";
-        this.pagamento = orcamento.pagamento ?? "PIX";
         this.taxa = orcamento.taxa ?? 0;
         this.margem = orcamento.margem ?? 0;
 
@@ -93,7 +90,6 @@ export class Orcamento {
         this.largura = 0;
         this.cor = "";
         this.alcapao = "N";
-        this.pagamento = "PIX";
         this.taxa = 0;
         this.margem = 0;
 

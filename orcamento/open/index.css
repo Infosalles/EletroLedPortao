@@ -2,6 +2,10 @@
     max-width: 800px;
 }
 
+.navbar-brand > img {
+    vertical-align: text-bottom;
+}
+
 .card-img-top {
     height: 50px;
     margin: 1rem;

@@ -1,6 +1,7 @@
 import { Orcamento, OrcamentoItem } from "../../models/orcamento.js";
 import * as produtoRepository from "../../repositories/produtoRepository.js";
 import * as orcamentoRepository from "../../repositories/orcamentoRepository.js";
+import { alert } from "../../scripts/utils.js";
 
 const _formOrcamento = new Orcamento();
 
@@ -64,6 +65,7 @@ function updateOrcamento() {
     let validation = _formOrcamento.validate();
     if (validation.length > 0) {
         console.error(validation);
+        alert('<ul class="m-0">' + validation.map(s => '<li>' + s + '</li>').join("") + '</ul>', 'danger');
         return;
     }
 
@@ -105,7 +107,7 @@ function updateOrcamento() {
 }
 
 document.body.onload = function (e) {
-    init(); 
+    init();
 };
 
 _form.addEventListener('submit', function (e) {
