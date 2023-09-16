@@ -1,4 +1,8 @@
+import * as authRepository from "../repositories/authRepository.js";
 import * as orcamentoRepository from "../repositories/orcamentoRepository.js";
+
+/** @type {HTMLInputElement} */
+const _btnLogout = document.getElementById('btnLogout');
 
 /** @type {HTMLTableElement} */
 const _table = document.getElementById("orcamento-table");
@@ -39,21 +43,38 @@ function updateTable() {
         /** @type {HTMLTableCellElement} */
         let td;
 
+        const fnVisualizar = (e) => {
+            location.href = "./open?id=" + orcamento.id;
+        };
+
+        const fnDeletar = (e) => {
+            const msg = ["Você quer mesmo apagar o orçamento?"];
+            columns.forEach(col => {
+                let val = orcamento[col];
+    
+                if (val && typeof (val) == "number") {
+                    msg.push(`${col}: ${formatFloat(val, 2)}`);
+                }
+                else msg.push(`${col}: ${val}`);
+            });
+
+            if (confirm(msg.join('\n')))
+            {
+                orcamentoRepository.removeOrcamento(orcamento.id);
+            }
+        };
+
+        /* botão visualizar orçamento */
         td = document.createElement('td');
         let btn_sm = document.createElement('button');
         btn_sm.classList.add("btn", "btn-sm", "btn-primary", "d-none", "d-md-block");
         btn_sm.innerHTML = "<i class='bi bi-list'></i>";
-        btn_sm.addEventListener('click', (e) => {
-            location.href = "./open?id=" + orcamento.id;
-        });
+        btn_sm.addEventListener('click', fnVisualizar);
         td.appendChild(btn_sm);
         let btn = document.createElement('button');
         btn.classList.add("btn", "btn-primary", "d-md-none");
         btn.innerHTML = "<i class='bi bi-list'></i>";
-        btn.addEventListener('click', (e) => {
-            location.href = "./open?id=" + orcamento.id;
-        });
-        td.appendChild(btn);
+        btn.addEventListener('click', fnVisualizar);
         row.appendChild(td);
 
         columns.forEach(col => {
@@ -68,6 +89,20 @@ function updateTable() {
             else td.textContent = val;
             row.appendChild(td);
         });
+        
+        /* botão deletar orçamento */
+        td = document.createElement('td');
+        let btn_del_sm = document.createElement('button');
+        btn_del_sm.classList.add("btn", "btn-sm", "btn-danger", "d-none", "d-md-block");
+        btn_del_sm.innerHTML = "<i class='bi bi-trash'></i>";
+        btn_del_sm.addEventListener('click', fnDeletar);
+        td.appendChild(btn_del_sm);
+        let btn_del = document.createElement('button');
+        btn_del.classList.add("btn", "btn-danger", "d-md-none");
+        btn_del.innerHTML = "<i class='bi bi-trash'></i>";
+        btn_del.addEventListener('click', fnDeletar);
+        td.appendChild(btn_del);
+        row.appendChild(td);
 
         tbody.appendChild(row);
     });
@@ -90,3 +125,7 @@ function formatFloat(n, totalDigits) {
 document.body.onload = function (e) {
     init();
 };
+
+_btnLogout.addEventListener('click', function (e) {
+    authRepository.logout();
+});

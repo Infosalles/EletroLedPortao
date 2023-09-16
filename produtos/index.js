@@ -1,6 +1,12 @@
+import { alert } from "../lib/utils/utils.js";
+
 import { Produto } from "../models/produto.js";
+
+import * as authRepository from "../repositories/authRepository.js";
 import * as produtoRepository from "../repositories/produtoRepository.js";
-import { alert } from "../scripts/utils.js";
+
+/** @type {HTMLInputElement} */
+const _btnLogout = document.getElementById('btnLogout');
 
 const _formProduto = new Produto();
 
@@ -66,7 +72,7 @@ function updateForm(produto, iesInsert) {
         /** @type {HTMLInputElement} */
         let field = document.getElementById(col);
 
-        if(!field) continue;
+        if (!field) continue;
 
         field.value = _formProduto[col] ?? null;
     }
@@ -84,7 +90,7 @@ function updateProduto() {
         /** @type {HTMLInputElement} */
         let field = document.getElementById(col);
 
-        if(!field) continue;
+        if (!field) continue;
 
         if (field.type == "number")
             _formProduto[col] = Number.isNaN(field.valueAsNumber) ? null : field.valueAsNumber;
@@ -104,8 +110,12 @@ function updateProduto() {
 }
 
 document.body.onload = function (e) {
-    init(); 
+    init();
 };
+
+_btnLogout.addEventListener('click', function (e) {
+    authRepository.logout();
+});
 
 _form.addEventListener('submit', function (e) {
     e.preventDefault();

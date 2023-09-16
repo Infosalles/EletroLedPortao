@@ -1,8 +1,18 @@
 import { Orcamento } from "../../models/orcamento.js";
+
+import * as authRepository from "../../repositories/authRepository.js";
 import * as orcamentoRepository from "../../repositories/orcamentoRepository.js";
+
+/** @type {HTMLInputElement} */
+const _btnLogout = document.getElementById('btnLogout');
 
 /** @type {HTMLTableElement} */
 const _table = document.getElementById("itens-table");
+
+/** @type {HTMLInputElement} */
+const _btnPrintCliente = document.getElementById('btnPrintCliente');
+/** @type {HTMLInputElement} */
+const _btnPrintFornecedor = document.getElementById('btnPrintFornecedor');
 
 function init() {
     let params = new URLSearchParams(location.search);
@@ -55,7 +65,7 @@ function updateTable(orcamento) {
         td = document.createElement('td');
         td.dataset.col = "valor";
         td.textContent = formatFloat(item.valor, 2);
-        td.classList.add("d-print-none", "text-end");
+        td.classList.add("hidden-cliente", "text-end");
         row.appendChild(td);
 
         tbody.appendChild(row);
@@ -94,6 +104,30 @@ function formatFloat(n, totalDigits) {
     });
 }
 
+/**
+ * 
+ * @param {('cliente'|'fornecedor')} tipo 
+ */
+function printOrcamento(tipo) {
+    const body = document.body;
+
+    body.classList.remove("print-cliente", "print-fornecedor");
+    body.classList.add("print-" + tipo);
+
+    print();
+}
+
 document.body.onload = function (e) {
     init();
 };
+
+_btnLogout.addEventListener('click', function (e) {
+    authRepository.logout();
+});
+
+_btnPrintCliente.addEventListener('click', function(e){
+    printOrcamento('cliente');
+})
+_btnPrintFornecedor.addEventListener('click', function(e){
+    printOrcamento('fornecedor');
+})

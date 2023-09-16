@@ -1,4 +1,7 @@
+import { addLoading, removeLoading, alert } from "../lib/utils/utils.js";
+
 import { Produto } from "../models/produto.js";
+
 import { app } from "./baseRepository.js";
 import { getDatabase, ref, onValue, child, set, remove, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js';
 
@@ -12,7 +15,16 @@ export const produtos = [];
  * @param {Produto} produto 
  */
 export function addProduto(produto) {
-    set(ref(database, "produtos/" + produto.id), produto);
+    try {
+        addLoading("addProduto");
+
+        set(ref(database, "produtos/" + produto.id), produto);
+    } catch (e) {
+        alert("Não foi possível gravar o produto");
+        console.error(e);
+    } finally {
+        removeLoading("addProduto");
+    }
 }
 
 /**
@@ -20,15 +32,24 @@ export function addProduto(produto) {
  * @param {function():void|undefined} callbackFn callback para atualizar a tela com a lista de produtos recarregada
  */
 export function getProdutos(callbackFn) {
-    onValue(ref(database, 'produtos'), (snapshot) => {
-        produtos.length = 0;
-        snapshot.forEach((childSnapshot) => {
-            let _p = new Produto();
-            _p.update(childSnapshot.val());
-            produtos.push(_p);
+    try {
+        addLoading("getProdutos");
+
+        onValue(ref(database, 'produtos'), (snapshot) => {
+            produtos.length = 0;
+            snapshot.forEach((childSnapshot) => {
+                let _p = new Produto();
+                _p.update(childSnapshot.val());
+                produtos.push(_p);
+            });
+            if (callbackFn) callbackFn();
+            removeLoading("getProdutos");
         });
-        if (callbackFn) callbackFn();
-    });
+    } catch (e) {
+        removeLoading("getProdutos");
+        alert("Não foi possível carregar os produtos");
+        console.error(e);
+    }
 }
 
 /**
@@ -36,5 +57,15 @@ export function getProdutos(callbackFn) {
  * @param {string} id 
  */
 export function removeProduto(id) {
-    remove(ref(database, "produtos/" + id));
+    try {
+        addLoading("removeProduto");
+
+        remove(ref(database, "produtos/" + id));
+        
+        removeLoading("removeProduto");
+    } catch (e) {
+        removeLoading("removeProduto");
+        alert("Não foi possível remover o produto");
+        console.error(e);
+    }
 }

@@ -1,7 +1,13 @@
+import { alert } from "../../lib/utils/utils.js";
+
 import { Orcamento, OrcamentoItem } from "../../models/orcamento.js";
+
+import * as authRepository from "../../repositories/authRepository.js";
 import * as produtoRepository from "../../repositories/produtoRepository.js";
 import * as orcamentoRepository from "../../repositories/orcamentoRepository.js";
-import { alert } from "../../scripts/utils.js";
+
+/** @type {HTMLInputElement} */
+const _btnLogout = document.getElementById('btnLogout');
 
 const _formOrcamento = new Orcamento();
 
@@ -109,6 +115,10 @@ function updateOrcamento() {
 document.body.onload = function (e) {
     init();
 };
+
+_btnLogout.addEventListener('click', function (e) {
+    authRepository.logout();
+});
 
 _form.addEventListener('submit', function (e) {
     e.preventDefault();

@@ -2,17 +2,46 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="refresh" content="0; url=./orcamento/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EletroLed</title>
     <link rel="icon" href="./content/icons/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="./content/icons/apple-touch-icon.png">
     <link href="./app.webmanifest" rel="manifest" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="./lib/utils/utils.css" rel="stylesheet">
+    <link href="./index.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class="container">
+        <form id="login-form" class="card">
+            <img src="./content/images/logo.png" class="card-img-top p-4" alt="Logo">
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm" for="email">Email</label>
+                    <input id="email" type="text" class="form-control form-control-sm" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm" for="password">Senha</label>
+                    <input id="password" type="password" class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="card-footer text-body-secondary">
+                <div class="d-flex gap-1">
+                    <button id="btnLogin" type="submit" class="btn btn-primary">Entrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+    <script src="./index.js" type="module"></script>
 </body>
 
 </html>
