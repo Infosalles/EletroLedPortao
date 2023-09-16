@@ -75,6 +75,7 @@ function updateTable() {
         btn.classList.add("btn", "btn-primary", "d-md-none");
         btn.innerHTML = "<i class='bi bi-list'></i>";
         btn.addEventListener('click', fnVisualizar);
+        td.appendChild(btn);
         row.appendChild(td);
 
         columns.forEach(col => {
