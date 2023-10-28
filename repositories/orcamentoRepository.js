@@ -33,6 +33,23 @@ export function addOrcamento(orcamento) {
 }
 
 /**
+ * Atualiza um Orçamento no firebase
+ * @param {Orcamento} orcamento 
+ */
+export function updateOrcamento(orcamento) {
+    try {
+        addLoading("updateOrcamento");
+
+        update(ref(database, "orcamentos/" + orcamento.id), orcamento);
+    } catch (e) {
+        alert("Não foi possível gravar o orçamento");
+        console.error(e);
+    } finally {
+        removeLoading("updateOrcamento");
+    }
+}
+
+/**
  * Se conecta com o firebase para acessar a lista de orçamentos em tempo real
  * @param {function():void|undefined} callbackFn callback para atualizar a tela com a lista de orçamentos recarregada
  */

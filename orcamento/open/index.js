@@ -3,6 +3,11 @@ import { Orcamento } from "../../models/orcamento.js";
 import * as authRepository from "../../repositories/authRepository.js";
 import * as orcamentoRepository from "../../repositories/orcamentoRepository.js";
 
+const _orcamento = new Orcamento();
+
+/** @type {HTMLInputElement} */
+const _realizado = document.getElementById('realizado');
+
 /** @type {HTMLInputElement} */
 const _btnLogout = document.getElementById('btnLogout');
 
@@ -24,6 +29,8 @@ function init() {
  * @param {Orcamento} orcamento 
  */
 function updateTable(orcamento) {
+    _orcamento.update(orcamento);
+    
     /** @type {HTMLTableSectionElement} */
     let tbody;
 
@@ -85,7 +92,8 @@ function updateForm(orcamento) {
         if (!field) continue;
 
         let val = orcamento[col];
-        if (val && typeof (val) == "number") field.value = formatFloat(val, 2);
+        if (val && field instanceof HTMLInputElement && field.type == "checkbox") field.checked = val == "S" || val == true;
+        else if (val && typeof (val) == "number") field.value = formatFloat(val, 2);
         else field.value = val ?? null;
     }
 }
@@ -121,13 +129,18 @@ document.body.onload = function (e) {
     init();
 };
 
+_realizado.addEventListener('change', function (e) {
+    _orcamento.realizado = _realizado.checked ? "S" : "N";
+    orcamentoRepository.updateOrcamento(_orcamento);
+});
+
 _btnLogout.addEventListener('click', function (e) {
     authRepository.logout();
 });
 
-_btnPrintCliente.addEventListener('click', function(e){
+_btnPrintCliente.addEventListener('click', function (e) {
     printOrcamento('cliente');
-})
-_btnPrintFornecedor.addEventListener('click', function(e){
+});
+_btnPrintFornecedor.addEventListener('click', function (e) {
     printOrcamento('fornecedor');
-})
+});

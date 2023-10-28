@@ -8,11 +8,12 @@ export class Orcamento {
      * @param {number} altura 
      * @param {number} largura 
      * @param {string} cor
-     * @param {bool} alcapao
+     * @param {string} alcapao
      * @param {number} taxa
      * @param {number} margem
+     * @param {string} realizado
      */
-    constructor(id, cliente, altura, largura, cor, alcapao, taxa, margem) {
+    constructor(id, cliente, altura, largura, cor, alcapao, taxa, margem, realizado) {
         /** @type {string} */
         this.id = id ?? "";
         /** @type {string} */
@@ -29,6 +30,8 @@ export class Orcamento {
         this.taxa = taxa ?? 0;
         /** @type {number} */
         this.margem = margem ?? 0;
+        /** @type {string} */
+        this.realizado = realizado ?? "N";
 
         /** @type {OrcamentoItem[]} */
         this.itens = [];
@@ -70,6 +73,7 @@ export class Orcamento {
         this.alcapao = orcamento.alcapao ?? "N";
         this.taxa = orcamento.taxa ?? 0;
         this.margem = orcamento.margem ?? 0;
+        this.realizado = orcamento.realizado ?? "N";
 
         this.itens = orcamento.itens?.map(item => {
             let orcamentoItem = new OrcamentoItem();

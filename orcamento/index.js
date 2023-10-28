@@ -40,6 +40,8 @@ function updateTable() {
     // Adiciona as linhas da tabela
     orcamentoRepository.orcamentos.forEach(orcamento => {
         const row = document.createElement('tr');
+        if (orcamento.realizado == "S") row.classList.add("table-success");
+        
         /** @type {HTMLTableCellElement} */
         let td;
 
@@ -83,7 +85,11 @@ function updateTable() {
 
             td = document.createElement('td');
             td.dataset.col = col;
-            if (val && typeof (val) == "number") {
+            if (col == "realizado") {
+                td.textContent = val == "S" ? "SIM" : "NÃO";
+                td.classList.add("text-center");
+            }
+            else if (val && typeof (val) == "number") {
                 td.textContent = formatFloat(val, 2);
                 td.classList.add("text-end");
             }
