@@ -62,14 +62,10 @@
             </div>
         </nav>
         <div class="card">
-            <img src="../../content/images/logo.png" class="card-img-top d-none d-print-block" alt="logo" />
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <h4>Orçamento</h4>
-                    </div>
-                    <div class="col-auto">
-                        <input id="data" readonly type="text" class="form-control-plaintext text-end"></input>
+                        <h4>Recebimento</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -78,17 +74,29 @@
                         <input id="cliente" readonly type="text" class="form-control form-control-sm" />
                     </div>
                     <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="largura">Largura</label>
-                        <input id="largura" readonly type="text" class="form-control form-control-sm" />
+                        <label class="col-form-label col-form-label-sm" for="valor">Valor da Transação</label>
+                        <input id="valor" readonly type="number" step="0.01" min="0" class="form-control form-control-sm" />
                     </div>
                     <div class="form-group col-6">
-                        <label class="col-form-label col-form-label-sm" for="altura">Altura</label>
-                        <input id="altura" readonly type="text" class="form-control form-control-sm" />
+                        <label class="col-form-label col-form-label-sm" for="juros">Juros ao Mês</label>
+                        <input id="juros" readonly type="number" step="0.01" min="0" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label col-form-label-sm" for="data_recebimento">Data de Início</label>
+                        <input id="data_recebimento" readonly type="date" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label col-form-label-sm" for="saldo">Saldo Principal</label>
+                        <input id="saldo" readonly type="number" step="0.01" min="0" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label col-form-label-sm" for="saldo_com_juros">Saldo com Juros</label>
+                        <input id="saldo_com_juros" readonly type="number" step="0.01" min="0" class="form-control form-control-sm" />
                     </div>
                     <div class="col-6">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="realizado">
-                            <label class="form-check-label" for="realizado">Confirmado</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="quitado">
+                            <label class="form-check-label" for="quitado">Quitado</label>
                         </div>
                     </div>
                 </div>
@@ -98,36 +106,39 @@
                 <table id="itens-table" class="table table-sm table-striped-columns m-0">
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col" data-col="qtd">Qtd</th>
-                            <th scope="col" data-col="unidade">Un</th>
-                            <th scope="col" data-col="descricao">Descricao</th>
-                            <th scope="col" data-col="valor" class="hidden-cliente">Valor</th>
+                            <th scope="col" data-col="seq">IT</th>
+                            <th scope="col" data-col="descricao">Descrição</th>
+                            <th scope="col" data-col="data_lancamento">Data</th>
+                            <th scope="col" data-col="valor_recebido">Valor<br/>Recebido</th>
+                            <th scope="col" data-col="valor_principal">Valor<br/>Principal</th>
+                            <th scope="col" data-col="valor_juros">Valor<br/>Juros</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <caption>
-                        <div class="form-group row g-0 hidden-cliente">
-                            <label for="totalValor" class="col-form-label col-auto">Total</label>
-                            <input id="totalValor" type="text" readonly class="form-control-plaintext text-end col" />
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <label class="col-form-label col-form-label-sm" for="descricao">Descrição</label>
+                                <input id="descricao" type="text" class="form-control form-control-sm" />
+                            </div>
                         </div>
-                        <div class="form-group row g-0 hidden-fornecedor">
-                            <label for="totalValorPix" class="col-form-label col-auto">Pix (à vista)</label>
-                            <input id="totalValorPix" type="text" readonly
-                                class="form-control-plaintext text-end col" />
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class="col-form-label col-form-label-sm" for="valor_recebido">Valor Recebido</label>
+                                <input id="valor_recebido" type="number" step="0.01" min="0" class="form-control form-control-sm" />
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="col-form-label col-form-label-sm" for="data_lancamento">Data de Recebimento</label>
+                                <input id="data_lancamento" type="date" class="form-control form-control-sm" />
+                            </div>
                         </div>
-                        <div class="form-group row g-0 hidden-fornecedor">
-                            <label for="totalValorCartao" class="col-form-label col-auto">Cartão</label>
-                            <input id="totalValorCartao" type="text" readonly
-                                class="form-control-plaintext text-end col" />
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="button" id="btnAdd" class="btn btn-sm btn-primary w-100">Inserir</button>
+                            </div>
                         </div>
                     </caption>
                 </table>
-            </div>
-            <div class="d-flex gap-2 d-print-none sticky-bottom py-3">
-                <button type="button" class="btn btn-sm btn-primary w-100" onclick="history.back();">Voltar</button>
-                <button id="btnPrintCliente" type="button" class="btn btn-sm btn-primary w-100">Imprimir
-                    Cliente</button>
-                <button id="btnPrintFornecedor" type="button" class="btn btn-sm btn-primary w-100">Imprimir
-                    Fornecedor</button>
             </div>
         </div>
     </div>

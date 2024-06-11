@@ -108,8 +108,11 @@ function updateOrcamento() {
 
     _formOrcamento.calculaOrcamento();
 
-    let orcamentoId = orcamentoRepository.addOrcamento(_formOrcamento);
-    location.href = "../open?id=" + orcamentoId;
+    orcamentoRepository
+        .addOrcamento(_formOrcamento)
+        .then(orcamentoId => {
+            location.href = "../open?id=" + orcamentoId;
+        });
 }
 
 document.body.onload = function (e) {

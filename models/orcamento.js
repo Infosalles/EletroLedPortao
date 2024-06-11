@@ -46,9 +46,7 @@ export class Orcamento {
         this.data = (new Date()).toLocaleDateString();
     }
 
-    /**
-     * @returns {string[]}
-     */
+    /** @returns {string[]} */
     validate() {
         let errMsg = [];
 

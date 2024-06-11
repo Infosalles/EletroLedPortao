@@ -14,14 +14,14 @@ export const orcamentos = [];
  * @param {Orcamento} orcamento 
  * @returns {string}
  */
-export function addOrcamento(orcamento) {
+export async function addOrcamento(orcamento) {
     try {
         addLoading("addOrcamento");
 
         let postId = push(child(ref(database), "orcamentos")).key;
         orcamento.id = postId;
 
-        update(ref(database, "orcamentos/" + postId), orcamento);
+        await update(ref(database, "orcamentos/" + postId), orcamento);
 
         return orcamento.id;
     } catch (e) {
@@ -36,11 +36,11 @@ export function addOrcamento(orcamento) {
  * Atualiza um Orçamento no firebase
  * @param {Orcamento} orcamento 
  */
-export function updateOrcamento(orcamento) {
+export async function updateOrcamento(orcamento) {
     try {
         addLoading("updateOrcamento");
 
-        update(ref(database, "orcamentos/" + orcamento.id), orcamento);
+        await update(ref(database, "orcamentos/" + orcamento.id), orcamento);
     } catch (e) {
         alert("Não foi possível gravar o orçamento");
         console.error(e);
@@ -102,11 +102,11 @@ export function getOrcamento(id, callbackFn) {
  * Remove um orçamento no firebase
  * @param {string} id 
  */
-export function removeOrcamento(id) {
+export async function removeOrcamento(id) {
     try {
         addLoading("removeOrcamento");
 
-        remove(ref(database, "orcamentos/" + id));
+        await remove(ref(database, "orcamentos/" + id));
         
         removeLoading("removeOrcamento");
     } catch (e) {
